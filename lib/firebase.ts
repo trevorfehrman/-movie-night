@@ -22,7 +22,6 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 
 async function signInWithGoogle() {
-  console.log('clicked');
   try {
     await signInWithPopup(auth, googleAuthProvider);
   } catch (err) {
@@ -30,4 +29,8 @@ async function signInWithGoogle() {
   }
 }
 
-export { app, googleAuthProvider, auth, db, storage, signInWithGoogle };
+function signOut() {
+  auth.signOut();
+}
+
+export { app, googleAuthProvider, auth, db, storage, signInWithGoogle, signOut };
