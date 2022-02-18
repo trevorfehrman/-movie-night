@@ -4,6 +4,9 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import { NextPage } from 'next';
 import Image from 'next/image';
+import { db } from '../lib/firebase';
+
+import { doc, collection, query, where, onSnapshot } from 'firebase/firestore';
 
 const user = {
   name: 'Tom Cook',
@@ -29,6 +32,21 @@ function classNames(...classes: string[]) {
 }
 
 const Home: NextPage = () => {
+  const [posts, setPosts] = React.useState();
+
+  React.useEffect(() => {
+    const q = query(collection(db, 'posts'));
+    const unsubscribe = onSnapshot(q, querySnapshot => {
+      const posts: any[] = [];
+      querySnapshot.forEach(doc => {
+        posts.push(doc.data());
+      });
+      console.log('posts', posts);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <div className='min-h-full'>
       <Disclosure as='nav' className='bg-gray-800'>
@@ -196,3 +214,9 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+function useCollection(
+  arg0: any,
+  arg1: { snapshotListenOptions: { includeMetadataChanges: boolean } }
+): [any, any, any] {
+  throw new Error('Function not implemented.');
+}
