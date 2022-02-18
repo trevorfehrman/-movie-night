@@ -4,16 +4,12 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import { NextPage } from 'next';
 import Image from 'next/image';
-import { db } from '../lib/firebase';
+import { auth, db, signInWithGoogle } from '../lib/firebase';
 
-import { doc, collection, query, where, onSnapshot } from 'firebase/firestore';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
-const user = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-};
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
+
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
   { name: 'Team', href: '#', current: false },
@@ -46,6 +42,8 @@ const Home: NextPage = () => {
 
     return () => unsubscribe();
   }, []);
+
+  const [user, loading, error] = useAuthState(auth);
 
   return (
     <div className='min-h-full'>
@@ -98,7 +96,16 @@ const Home: NextPage = () => {
                       <div>
                         <Menu.Button className='max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white'>
                           <span className='sr-only'>Open user menu</span>
-                          <img className='h-8 w-8 rounded-full' src={user.imageUrl} alt='' />
+                          {user?.photoURL && (
+                            <Image
+                              width={32}
+                              height={32}
+                              className='rounded-full'
+                              onClick={signInWithGoogle}
+                              src={user.photoURL}
+                              alt=''
+                            />
+                          )}
                         </Menu.Button>
                       </div>
                       <Transition
@@ -164,38 +171,50 @@ const Home: NextPage = () => {
                   </Disclosure.Button>
                 ))}
               </div>
-              <div className='pt-4 pb-3 border-t border-gray-700'>
-                <div className='flex items-center px-5'>
-                  <div className='flex-shrink-0'>
-                    <img className='h-10 w-10 rounded-full' src={user.imageUrl} alt='' />
-                  </div>
-                  <div className='ml-3'>
-                    <div className='text-base font-medium leading-none text-white'>{user.name}</div>
-                    <div className='text-sm font-medium leading-none text-gray-400'>
-                      {user.email}
+              {user && (
+                <div className='pt-4 pb-3 border-t border-gray-700'>
+                  <div className='flex items-center px-5'>
+                    {user.photoURL && (
+                      <div className='flex-shrink-0'>
+                        <Image
+                          height={32}
+                          width={32}
+                          className='h-10 w-10 rounded-full'
+                          src={user.photoURL}
+                          alt=''
+                        />
+                      </div>
+                    )}
+                    <div className='ml-3'>
+                      <div className='text-base font-medium leading-none text-white'>
+                        {user.displayName}
+                      </div>
+                      <div className='text-sm font-medium leading-none text-gray-400'>
+                        {user.email}
+                      </div>
                     </div>
-                  </div>
-                  <button
-                    type='button'
-                    className='ml-auto bg-gray-800 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white'
-                  >
-                    <span className='sr-only'>View notifications</span>
-                    <BellIcon className='h-6 w-6' aria-hidden='true' />
-                  </button>
-                </div>
-                <div className='mt-3 px-2 space-y-1'>
-                  {userNavigation.map(item => (
-                    <Disclosure.Button
-                      key={item.name}
-                      as='a'
-                      href={item.href}
-                      className='block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700'
+                    <button
+                      type='button'
+                      className='ml-auto bg-gray-800 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white'
                     >
-                      {item.name}
-                    </Disclosure.Button>
-                  ))}
+                      <span className='sr-only'>View notifications</span>
+                      <BellIcon className='h-6 w-6' aria-hidden='true' />
+                    </button>
+                  </div>
+                  <div className='mt-3 px-2 space-y-1'>
+                    {userNavigation.map(item => (
+                      <Disclosure.Button
+                        key={item.name}
+                        as='a'
+                        href={item.href}
+                        className='block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700'
+                      >
+                        {item.name}
+                      </Disclosure.Button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </Disclosure.Panel>
           </>
         )}
@@ -214,9 +233,3 @@ const Home: NextPage = () => {
 };
 
 export default Home;
-function useCollection(
-  arg0: any,
-  arg1: { snapshotListenOptions: { includeMetadataChanges: boolean } }
-): [any, any, any] {
-  throw new Error('Function not implemented.');
-}
