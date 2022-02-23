@@ -47,6 +47,8 @@ const ActiveLink = ({ children, activeClassName, ...props }: ActiveLinkProps) =>
     className,
   ]);
 
+  React.useEffect(() => {}, []);
+
   return (
     <Link {...props}>
       {React.cloneElement(child, {
