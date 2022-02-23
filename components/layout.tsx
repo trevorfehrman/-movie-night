@@ -3,19 +3,12 @@ import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon, FilmIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
-import { auth, db, signInWithGoogle, signOut } from '../lib/firebase';
+import { auth, signInWithGoogle, signOut } from 'lib/firebase';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
+import Link from 'next/link';
+import ActiveLink from './ActiveLink';
 
-import { collection, query, onSnapshot } from 'firebase/firestore';
-
-const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
-  { name: 'Team', href: '#', current: false },
-  { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
-  { name: 'Reports', href: '#', current: false },
-];
 <svg
   xmlns='http://www.w3.org/2000/svg'
   className='w-6 h-6'
@@ -30,6 +23,7 @@ const navigation = [
     d='M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z'
   />
 </svg>;
+
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
   { name: 'Settings', href: '#' },
@@ -40,7 +34,12 @@ function classNames(...classes: string[]) {
 }
 
 function Layout({ children }: { children: JSX.Element }) {
+  const [page, setPage] = React.useState([
+    { name: 'Dashboard', href: '/' },
+    { name: 'Add Movie', href: '/add-movie' },
+  ]);
   const [user, loading, error] = useAuthState(auth);
+
   return (
     <>
       <div className='min-h-full'>
@@ -55,20 +54,23 @@ function Layout({ children }: { children: JSX.Element }) {
                     </div>
                     <div className='hidden md:block'>
                       <div className='flex items-baseline ml-10 space-x-4'>
-                        {navigation.map(item => (
-                          <a
+                        {page.map(item => (
+                          <ActiveLink
+                            activeClassName={
+                              'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'
+                            }
                             key={item.name}
                             href={item.href}
-                            className={classNames(
-                              item.current
-                                ? 'bg-gray-900 text-white'
-                                : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                              'px-3 py-2 rounded-md text-sm font-medium'
-                            )}
-                            aria-current={item.current ? 'page' : undefined}
                           >
-                            {item.name}
-                          </a>
+                            <a
+                              className={
+                                'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'
+                              }
+                              // aria-current={item.current ? 'page' : undefined}
+                            >
+                              {item.name}
+                            </a>
+                          </ActiveLink>
                         ))}
                       </div>
                     </div>
@@ -119,15 +121,16 @@ function Layout({ children }: { children: JSX.Element }) {
                               {userNavigation.map(item => (
                                 <Menu.Item key={item.name}>
                                   {({ active }) => (
-                                    <a
-                                      href={item.href}
-                                      className={classNames(
-                                        active ? 'bg-gray-100' : '',
-                                        'block px-4 py-2 text-sm text-gray-700'
-                                      )}
-                                    >
-                                      {item.name}
-                                    </a>
+                                    <Link href={item.href}>
+                                      <a
+                                        className={classNames(
+                                          active ? 'bg-gray-100' : '',
+                                          'block px-4 py-2 text-sm text-gray-700'
+                                        )}
+                                      >
+                                        {item.name}
+                                      </a>
+                                    </Link>
                                   )}
                                 </Menu.Item>
                               ))}
@@ -166,21 +169,23 @@ function Layout({ children }: { children: JSX.Element }) {
 
               <Disclosure.Panel className='md:hidden'>
                 <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3'>
-                  {navigation.map(item => (
-                    <Disclosure.Button
+                  {page.map(item => (
+                    <ActiveLink
+                      activeClassName={
+                        'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'
+                      }
                       key={item.name}
-                      as='a'
                       href={item.href}
-                      className={classNames(
-                        item.current
-                          ? 'bg-gray-900 text-white'
-                          : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                        'block px-3 py-2 rounded-md text-base font-medium'
-                      )}
-                      aria-current={item.current ? 'page' : undefined}
                     >
-                      {item.name}
-                    </Disclosure.Button>
+                      <a
+                        className={
+                          'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'
+                        }
+                        // aria-current={item.current ? 'page' : undefined}
+                      >
+                        {item.name}
+                      </a>
+                    </ActiveLink>
                   ))}
                 </div>
                 {user && (

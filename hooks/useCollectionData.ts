@@ -1,6 +1,6 @@
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import * as React from 'react';
-import { db } from '../lib/firebase';
+import { db } from 'lib/firebase';
 
 export function useCollectionData<T>(collectionPath: string) {
   const [docs, setDocs] = React.useState<T[]>([]);
