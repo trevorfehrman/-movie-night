@@ -20,7 +20,6 @@ const Home: NextPage = () => {
   const movies = useMovies();
 
   React.useEffect(() => {
-    console.log('hi?', process.env.NODE_ENV, process.env.NEXT_PUBLIC_REACT_APP_MOVIE_API_KEY);
     fetchMovies();
   }, []);
 
