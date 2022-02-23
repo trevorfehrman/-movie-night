@@ -33,7 +33,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-function Nav({ children }: { children: JSX.Element }) {
+function Layout({ children }: { children: JSX.Element }) {
   const [page, setPage] = React.useState([
     { name: 'Dashboard', href: '/' },
     { name: 'Add Movie', href: '/add-movie' },
@@ -250,4 +250,4 @@ function Nav({ children }: { children: JSX.Element }) {
   );
 }
 
-export { Nav };
+export { Layout };
