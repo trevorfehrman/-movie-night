@@ -1,25 +1,38 @@
 import * as React from 'react'; /* This example requires Tailwind CSS v2.0+ */
 import { NextPage } from 'next';
 
-import { useCollection, useCollectionData } from 'react-firebase-hooks/firestore';
-
 import { Layout } from '../components/layout';
-import { collection, query } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { useMovies } from '../hooks/useMovies';
+
+import axios from 'axios';
+
+const TMDB_URL = 'https://api.themoviedb.org/3';
+async function fetchMovies() {
+  const data = await axios.get(`${TMDB_URL}/discover/movie`, {
+    params: {
+      api_key: process.env.NEXT_PUBLIC_REACT_APP_MOVIE_API_KEY,
+    },
+  });
+  console.log(data);
+}
 
 const Home: NextPage = () => {
-  const q = query(collection(db, 'movies'));
-  const [value, loading, error] = useCollection(collection(db, 'movies'), {
-    snapshotListenOptions: { includeMetadataChanges: true },
-  });
+  const movies = useMovies();
+
+  React.useEffect(() => {
+    console.log('hi?', process.env.NODE_ENV, process.env.NEXT_PUBLIC_REACT_APP_MOVIE_API_KEY);
+    fetchMovies();
+  }, []);
+
   return (
     <Layout>
-      <>
-        {value &&
-          value.docs.map(doc => (
-            <React.Fragment key={doc.id}>{JSON.stringify(doc.data())}</React.Fragment>
-          ))}
-      </>
+      <main className='flex justify-center'>
+        {movies?.map(movie => (
+          <div key={movie.id}>
+            <div>{movie.title}</div>
+          </div>
+        ))}
+      </main>
     </Layout>
   );
 };
