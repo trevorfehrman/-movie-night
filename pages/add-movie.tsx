@@ -77,17 +77,57 @@ export default function AddMovie() {
       </Combobox>
       <section>
         {movie && (
-          <>
-            <h2 className='mb-4 text-2xl font-bold text-gray-900'>{movie.title}</h2>
-            <Image
-              alt={`Poster for${movie.title}`}
-              src={`${BASE_IMG_URL}${movie.poster_path}`}
-              width={330}
-              height={500}
-            />
-          </>
+          <div className='flex'>
+            <div>
+              <h2 className='mb-4 text-2xl font-bold text-gray-900'>{movie.title}</h2>
+              <Image
+                alt={`Poster for${movie.title}`}
+                src={`${BASE_IMG_URL}${movie.poster_path}`}
+                width={330}
+                height={500}
+              />
+            </div>
+            <div className='w-1/2 pt-12 ml-20'>
+              <h3 className='text-lg font-bold text-gray-900'>
+                Director: <span className='font-normal'>{imdbData?.Director}</span>
+              </h3>
+              <h3 className='text-lg font-bold text-gray-900'>
+                Writer: <span className='font-normal'>{imdbData?.Writer}</span>
+              </h3>
+              <h3 className='text-lg font-bold text-gray-900'>
+                Year: <span className='font-normal'>{imdbData?.Year}</span>
+              </h3>
+              <h3 className='text-lg font-bold text-gray-900'>
+                Released: <span className='font-normal'>{imdbData?.Released}</span>
+              </h3>
+              <h3 className='text-lg font-bold text-gray-900'>
+                Runtime: <span className='font-normal'>{imdbData?.Runtime}</span>
+              </h3>
+              <h3 className='text-lg font-bold text-gray-900'>
+                Genre: <span className='font-normal'>{imdbData?.Genre}</span>
+              </h3>
+              <h3 className='text-lg font-bold text-gray-900'>
+                Staring: <span className='font-normal'>{imdbData?.Actors}</span>
+              </h3>
+              <h3 className='text-lg font-bold text-gray-900'>
+                Summary: <span className='font-normal'>{imdbData?.Plot}</span>
+              </h3>
+              <h3 className='text-lg font-bold text-gray-900'>
+                Language: <span className='font-normal'>{imdbData?.Language}</span>
+              </h3>
+              <h3 className='text-lg font-bold text-gray-900'>
+                Country: <span className='font-normal'>{imdbData?.Country}</span>
+              </h3>
+              <h3 className='text-lg font-bold text-gray-900'>
+                Awards: <span className='font-normal'>{imdbData?.Awards}</span>
+              </h3>
+              <h3 className='text-lg font-bold text-gray-900'>
+                Box Office: <span className='font-normal'>{imdbData?.BoxOffice}</span>
+              </h3>
+            </div>
+          </div>
         )}
-        <pre>{JSON.stringify(imdbData)}</pre>
+        {/* <pre>{JSON.stringify(imdbData)}</pre> */}
       </section>
     </div>
   );
