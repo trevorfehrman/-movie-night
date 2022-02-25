@@ -11,12 +11,16 @@ import { getMovieData, Result, SearchResult, searchTitle } from 'lib/tmdb';
 import '@reach/combobox/styles.css';
 import { useDebounce } from 'hooks/useDebounce';
 import { getMovieDetails, IMDBDetails } from 'lib/omdb';
+import { collection, doc, getDoc, setDoc, where, query, getDocs } from 'firebase/firestore';
+import { db } from 'lib/firebase';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const BASE_IMG_URL = 'https://image.tmdb.org/t/p/original';
 
 export default function AddMovie() {
-  const [query, setQuery] = React.useState('');
-  const debouncedQuery = useDebounce(query, 500);
+  const [term, setTerm] = React.useState('');
+  const debouncedTerm = useDebounce(term, 500);
 
   const [options, setOptions] = React.useState<SearchResult>();
   const [searching, setIsSearching] = React.useState(false);
@@ -24,11 +28,13 @@ export default function AddMovie() {
   const [movie, setMovie] = React.useState<Result>();
   const [imdbData, setImdbData] = React.useState<IMDBDetails>();
 
+  const [showSubmitButton, setShowSubmitButton] = React.useState(false);
+
   React.useEffect(() => {
     async function init() {
-      if (debouncedQuery) {
+      if (debouncedTerm) {
         setIsSearching(true);
-        const results = await searchTitle(debouncedQuery);
+        const results = await searchTitle(debouncedTerm);
         setOptions(results.data);
         setIsSearching(false);
       } else {
@@ -37,7 +43,7 @@ export default function AddMovie() {
       }
     }
     init();
-  }, [debouncedQuery]);
+  }, [debouncedTerm]);
 
   React.useEffect(() => {
     async function init() {
@@ -47,15 +53,53 @@ export default function AddMovie() {
         const imdbResults = await getMovieDetails(results.data.imdb_id);
         setImdbData(imdbResults?.data);
       }
+
+      if (movie?.title) {
+        const q = query(collection(db, 'movies'), where('title', '==', movie?.title));
+        const querySnapshot = await getDocs(q);
+
+        const matches = [];
+
+        querySnapshot.forEach(doc => {
+          if (doc.exists()) {
+            matches.push(doc);
+          }
+        });
+
+        if (matches.length === 0) {
+          setShowSubmitButton(true);
+        }
+      }
     }
     init();
   }, [movie]);
+
+  async function handleSubmit() {
+    await setDoc(doc(db, 'movies', uuidv4()), {
+      title: movie?.title,
+      posterPath: movie?.poster_path,
+      director: imdbData?.Director,
+      writer: imdbData?.Writer,
+      year: imdbData?.Year,
+      runtime: imdbData?.Runtime,
+      genre: imdbData?.Genre,
+      actors: imdbData?.Actors,
+      plot: imdbData?.Plot,
+      language: imdbData?.Language,
+      country: imdbData?.Country,
+      awards: imdbData?.Awards,
+      boxOffice: imdbData?.BoxOffice,
+      createdAt: Date.now(),
+    });
+
+    setShowSubmitButton(false);
+  }
 
   return (
     <div className='flex flex-col justify-center'>
       <Combobox aria-labelledby='demo' className='flex justify-center'>
         <ComboboxInput
-          onChange={e => setQuery(e.target.value)}
+          onChange={e => setTerm(e.target.value)}
           placeholder='Search...'
           className='w-1/4 px-3 py-2 mb-6 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline'
           type='search'
@@ -67,8 +111,9 @@ export default function AddMovie() {
           <ComboboxList>
             {options?.results?.map(option => (
               <ComboboxOption
+                className='font-normal'
                 key={option.id}
-                value={option.title}
+                value={`${option.title} - ${option.release_date?.split('-')[0]}`}
                 onClick={() => setMovie(option)}
               />
             ))}
@@ -78,7 +123,7 @@ export default function AddMovie() {
       <section>
         {movie && (
           <div className='flex'>
-            <div>
+            <div className='flex flex-col'>
               <h2 className='mb-4 text-2xl font-bold text-gray-900'>{movie.title}</h2>
               <Image
                 alt={`Poster for${movie.title}`}
@@ -86,6 +131,22 @@ export default function AddMovie() {
                 width={330}
                 height={500}
               />
+              {showSubmitButton ? (
+                <button
+                  onClick={handleSubmit}
+                  className='px-4 py-2 mt-4 font-bold text-gray-900 transition bg-yellow-400 rounded hover:bg-yellow-600 hover:ease-out'
+                >
+                  Save to list
+                </button>
+              ) : (
+                <button
+                  disabled
+                  onClick={handleSubmit}
+                  className='px-4 py-2 mt-4 font-bold text-gray-900 bg-yellow-400 rounded cursor-not-allowed disabled:opacity-75'
+                >
+                  Added
+                </button>
+              )}
             </div>
             <div className='w-1/2 pt-12 ml-20'>
               <h3 className='text-lg font-bold text-gray-900'>
@@ -96,9 +157,6 @@ export default function AddMovie() {
               </h3>
               <h3 className='text-lg font-bold text-gray-900'>
                 Year: <span className='font-normal'>{imdbData?.Year}</span>
-              </h3>
-              <h3 className='text-lg font-bold text-gray-900'>
-                Released: <span className='font-normal'>{imdbData?.Released}</span>
               </h3>
               <h3 className='text-lg font-bold text-gray-900'>
                 Runtime: <span className='font-normal'>{imdbData?.Runtime}</span>

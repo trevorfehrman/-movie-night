@@ -87,7 +87,6 @@ export async function searchTitle(query: string) {
 export async function getMovieData(id?: number) {
   if (id) {
     const data = await tmdb.get<MovieData>(`movie/${id}`);
-    console.log(data, 'get id');
     return data;
   }
 }
