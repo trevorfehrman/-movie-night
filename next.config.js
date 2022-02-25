@@ -7,6 +7,7 @@ const nextConfig = {
       'images.unsplash.com',
       'lh3.googleusercontent.com',
       'image.tmdb.org',
+      'm.media-amazon.com',
     ],
   },
 };

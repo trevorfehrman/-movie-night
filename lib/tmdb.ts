@@ -47,7 +47,7 @@ enum Status {
   Canceled = 'Canceled',
 }
 
-export interface MovieData {
+export interface TmdbDetails {
   adult: boolean;
   backdrop_path: string | null;
   belongs_to_collection: any;
@@ -86,7 +86,7 @@ export async function searchTitle(query: string) {
 
 export async function getMovieData(id?: number) {
   if (id) {
-    const data = await tmdb.get<MovieData>(`movie/${id}`);
+    const data = await tmdb.get<TmdbDetails>(`movie/${id}`);
     return data;
   }
 }
