@@ -1,12 +1,22 @@
 import * as React from 'react'; /* This example requires Tailwind CSS v2.0+ */
 import { NextPage } from 'next';
 import { useTable } from 'react-table';
+import Image from 'next/image';
 
 import { Movie, useMovies } from 'hooks/useMovies';
+import { BASE_IMG_URL_ORIGINAL } from 'constants/imageUrls';
 
 const Home: NextPage = () => {
   const columns = React.useMemo(() => {
     return [
+      {
+        Header: 'Poster',
+        accessor: (d: any) => `${BASE_IMG_URL_ORIGINAL}${d.posterPath}`,
+        Cell: (row: any) => {
+          console.log(row);
+          return <Image src={row.cell.value} height={100} width={66} />;
+        },
+      },
       {
         Header: 'Title',
         accessor: 'title',
@@ -16,8 +26,12 @@ const Home: NextPage = () => {
         accessor: 'picker',
       },
       {
-        Header: 'Metascore',
-        accessor: 'metascore',
+        Header: 'Director',
+        accessor: 'director',
+      },
+      {
+        Header: 'Year',
+        accessor: 'year',
       },
     ];
   }, []);

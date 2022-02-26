@@ -7,6 +7,7 @@ export interface Movie {
   tagline: string;
   posterPath: string;
   director: string[];
+  picker: string;
   writer: string[];
   year: string;
   runtime: string;
@@ -25,5 +26,6 @@ export interface Movie {
 }
 
 export function useMovies() {
-  return useCollectionData<Movie>('movies');
+  // return useCollectionData<Movie>('movies');
+  return useCollectionData<any>('movies');
 }
