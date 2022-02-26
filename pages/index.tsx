@@ -13,13 +13,15 @@ const Home: NextPage = () => {
         Header: 'Poster',
         accessor: (d: any) => `${BASE_IMG_URL_ORIGINAL}${d.posterPath}`,
         Cell: (row: any) => {
-          console.log(row);
           return <Image alt='Movie poster' src={row.cell.value} height={100} width={66} />;
         },
       },
       {
         Header: 'Title',
         accessor: 'title',
+        Cell: (row: any) => {
+          return <td className='whitespace-normal break-words'>{row.cell.value}</td>;
+        },
       },
       {
         Header: 'Picker',
@@ -32,6 +34,13 @@ const Home: NextPage = () => {
       {
         Header: 'Year',
         accessor: 'year',
+      },
+      {
+        Header: 'Rouzies',
+        accessor: 'rouzies',
+        Cell: (row: any) => {
+          return <td className='whitespace-normal break-words'>{row.cell.value}</td>;
+        },
       },
     ];
   }, []);
