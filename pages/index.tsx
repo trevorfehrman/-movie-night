@@ -14,7 +14,7 @@ const Home: NextPage = () => {
         accessor: (d: any) => `${BASE_IMG_URL_ORIGINAL}${d.posterPath}`,
         Cell: (row: any) => {
           console.log(row);
-          return <Image src={row.cell.value} height={100} width={66} />;
+          return <Image alt='Movie poster' src={row.cell.value} height={100} width={66} />;
         },
       },
       {
@@ -44,8 +44,11 @@ const Home: NextPage = () => {
 
   return (
     <div className='flex justify-center'>
-      <table {...getTableProps()}>
-        <thead>
+      <table
+        className='min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700'
+        {...getTableProps()}
+      >
+        <thead className='bg-gray-100 dark:bg-gray-700'>
           {
             // Loop over the header rows
             headerGroups.map(headerGroup => (
@@ -57,7 +60,10 @@ const Home: NextPage = () => {
                   headerGroup.headers.map(column => (
                     // Apply the header cell props
                     // eslint-disable-next-line react/jsx-key
-                    <th {...column.getHeaderProps()}>
+                    <th
+                      className='py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400'
+                      {...column.getHeaderProps()}
+                    >
                       {
                         // Render the header
                         column.render('Header')
@@ -70,7 +76,10 @@ const Home: NextPage = () => {
           }
         </thead>
         {/* Apply the table body props */}
-        <tbody {...getTableBodyProps()}>
+        <tbody
+          className='bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700'
+          {...getTableBodyProps()}
+        >
           {
             // Loop over the table rows
             rows.map(row => {
@@ -79,14 +88,17 @@ const Home: NextPage = () => {
               return (
                 // Apply the row props
                 // eslint-disable-next-line react/jsx-key
-                <tr {...row.getRowProps()}>
+                <tr className='hover:bg-gray-100 dark:hover:bg-gray-700' {...row.getRowProps()}>
                   {
                     // Loop over the rows cells
                     row.cells.map(cell => {
                       // Apply the cell props
                       return (
                         // eslint-disable-next-line react/jsx-key
-                        <td {...cell.getCellProps()}>
+                        <td
+                          className='py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white'
+                          {...cell.getCellProps()}
+                        >
                           {
                             // Render the cell contents
                             cell.render('Cell')
