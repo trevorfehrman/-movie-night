@@ -121,7 +121,10 @@ export default function AddMovie() {
 
   return (
     <div className='flex flex-col justify-center items-center'>
-      <Combobox aria-labelledby='movie title search' className='relative flex justify-center w-1/2'>
+      <Combobox
+        aria-labelledby='movie title search'
+        className=' w-full relative flex justify-center md:w-1/2'
+      >
         <ComboboxInput
           value={term}
           onChange={e => setTerm(e.target.value)}
@@ -165,7 +168,7 @@ export default function AddMovie() {
       </Combobox>
       <section>
         {imdbData && tmdbData && (
-          <div className='flex'>
+          <div className='flex flex-col md:flex-row'>
             <div className='flex flex-col'>
               <h2 className='mb-4 text-2xl font-bold text-gray-900 max-w-xs'>
                 {movieFromList?.title}
@@ -175,10 +178,13 @@ export default function AddMovie() {
                 src={`${BASE_IMG_URL_ORIGINAL}${movieFromList?.poster_path}`}
                 width={330}
                 height={500}
+                layout='responsive'
                 placeholder='blur'
                 blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(330, 500))}`}
               />
-              <h3 className='mt-3 text-xl text-gray-900 max-w-xs'>{tmdbData.tagline}</h3>
+              <h3 className='mx-auto text-center md:mt-3 sm:text-left sm:mx-0 text-xl text-gray-900 max-w-xs'>
+                {tmdbData.tagline}
+              </h3>
               {showSubmitButton ? (
                 <button
                   onClick={handleSubmit}
@@ -196,7 +202,7 @@ export default function AddMovie() {
                 </button>
               )}
             </div>
-            <div className='w-1/2 pt-12 ml-20'>
+            <div className='w-full md:w-1/2 pt-12 pl-4 md:ml-20'>
               <h4 className='text-lg font-bold text-gray-900'>
                 Director: <span className='font-normal'>{imdbData.Director}</span>
               </h4>
