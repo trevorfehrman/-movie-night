@@ -32,6 +32,13 @@ const Home: NextPage = () => {
         accessor: 'director',
       },
       {
+        Header: 'Country',
+        accessor: 'country',
+        Cell: (row: any) => {
+          return <td className='whitespace-normal break-words'>{row.cell.value[0]}</td>;
+        },
+      },
+      {
         Header: 'Year',
         accessor: 'year',
       },
