@@ -10,6 +10,15 @@ const Home: NextPage = () => {
   const columns = React.useMemo(() => {
     return [
       {
+        Header: 'Index',
+        accessor: '',
+        Cell: (d: any) => {
+          return <div>{Number(d.row.id) + 1}</div>;
+        },
+        disableSortBy: true,
+        disableFilters: true,
+      },
+      {
         Header: 'Poster',
         accessor: (d: any) => `${BASE_IMG_URL_ORIGINAL}${d.posterPath}`,
         Cell: (row: any) => {
