@@ -11,7 +11,7 @@ import { getMovieData, Result, SearchResult, searchTitle, TmdbDetails } from 'li
 import '@reach/combobox/styles.css';
 import { useDebounce } from 'hooks/useDebounce';
 import { getMovieDetails, IMDBDetails as ImdbDetails } from 'lib/omdb';
-import { collection, doc, getDoc, setDoc, where, query, getDocs } from 'firebase/firestore';
+import { collection, doc, setDoc, where, query, getDocs } from 'firebase/firestore';
 import { db } from 'lib/firebase';
 
 import { v4 as uuidv4 } from 'uuid';

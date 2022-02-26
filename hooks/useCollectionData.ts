@@ -24,5 +24,9 @@ export function useCollectionData<T>(collectionPath: string) {
     return unsubscribe;
   }, [collectionPath]);
 
-  return docs;
+  const memoizedDocs = React.useMemo(() => {
+    return docs;
+  }, [docs]);
+
+  return memoizedDocs;
 }

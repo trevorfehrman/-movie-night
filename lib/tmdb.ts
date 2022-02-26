@@ -31,7 +31,7 @@ export interface SearchResult {
   total_results: number;
 }
 
-interface ProductionCompany {
+export interface ProductionCompany {
   name: string;
   id: number;
   logo_path: string | null;
