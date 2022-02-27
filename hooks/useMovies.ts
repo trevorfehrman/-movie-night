@@ -26,6 +26,5 @@ export interface Movie {
 }
 
 export function useMovies() {
-  // return useCollectionData<Movie>('movies');
-  return useCollectionData<any>('movies');
+  return useCollectionData<Movie>('movies');
 }

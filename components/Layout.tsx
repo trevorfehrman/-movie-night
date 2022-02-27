@@ -8,6 +8,7 @@ import { auth, signInWithGoogle, signOut } from 'lib/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Link from 'next/link';
 import ActiveLink from './ActiveLink';
+import { useParticipats } from 'hooks/useParticipants';
 
 <svg
   xmlns='http://www.w3.org/2000/svg'
@@ -39,6 +40,7 @@ function Layout({ children }: { children: JSX.Element }) {
     { name: 'Add Movie', href: '/add-movie' },
   ]);
   const [user, loading, error] = useAuthState(auth);
+  const particpants = useParticipats();
 
   return (
     <>
@@ -235,9 +237,11 @@ function Layout({ children }: { children: JSX.Element }) {
           )}
         </Disclosure>
 
-        <header className='bg-white shadow'>
+        <header className=' bg-gray-800 shadow'>
           <div className='px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8'>
-            <h1 className='text-3xl font-bold text-gray-900'>Movie Night</h1>
+            <h1 className='text-3xl font-bold text-gray-100'>
+              {particpants[0]?.participants[particpants[0].cursor]}
+            </h1>
           </div>
         </header>
         <main>
