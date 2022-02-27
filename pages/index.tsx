@@ -1,6 +1,6 @@
 import * as React from 'react'; /* This example requires Tailwind CSS v2.0+ */
 import { NextPage } from 'next';
-import { useTable } from 'react-table';
+import { CellProps, useSortBy, useTable } from 'react-table';
 import Image from 'next/image';
 
 import { Movie, useMovies } from 'hooks/useMovies';
@@ -12,24 +12,22 @@ const Home: NextPage = () => {
       {
         Header: 'Index',
         accessor: '',
-        Cell: (d: any) => {
+        Cell: (d: CellProps<Movie>) => {
           return <div>{Number(d.row.id) + 1}</div>;
         },
-        disableSortBy: true,
-        disableFilters: true,
       },
       {
         Header: 'Poster',
         accessor: (d: any) => `${BASE_IMG_URL_ORIGINAL}${d.posterPath}`,
-        Cell: (row: any) => {
+        Cell: (row: CellProps<Movie>) => {
           return <Image alt='Movie poster' src={row.cell.value} height={100} width={66} />;
         },
       },
       {
         Header: 'Title',
         accessor: 'title',
-        Cell: (row: any) => {
-          return <td className='whitespace-normal break-words'>{row.cell.value}</td>;
+        Cell: (row: CellProps<Movie>) => {
+          return <div className='whitespace-normal break-words'>{row.cell.value}</div>;
         },
       },
       {
@@ -38,13 +36,16 @@ const Home: NextPage = () => {
       },
       {
         Header: 'Director',
-        accessor: 'director',
+        accessor: (d: any) => d.director[0],
+        Cell: (row: CellProps<Movie>) => {
+          return <div className='whitespace-normal break-words'>{row.cell.value}</div>;
+        },
       },
       {
         Header: 'Country',
-        accessor: 'country',
-        Cell: (row: any) => {
-          return <td className='whitespace-normal break-words'>{row.cell.value[0]}</td>;
+        accessor: (d: any) => d.country[0],
+        Cell: (row: CellProps<Movie>) => {
+          return <div className='whitespace-normal break-words'>{row.cell.value}</div>;
         },
       },
       {
@@ -54,8 +55,8 @@ const Home: NextPage = () => {
       {
         Header: 'Rouzies',
         accessor: 'rouzies',
-        Cell: (row: any) => {
-          return <td className='whitespace-normal break-words'>{row.cell.value}</td>;
+        Cell: (row: CellProps<Movie>) => {
+          return <div className='whitespace-normal break-words'>{row.cell.value}</div>;
         },
       },
     ];
@@ -63,7 +64,7 @@ const Home: NextPage = () => {
 
   const movies = useMovies();
 
-  const tableInstance = useTable({ columns, data: movies });
+  const tableInstance = useTable({ columns, data: movies }, useSortBy);
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
 
@@ -85,19 +86,21 @@ const Home: NextPage = () => {
                     <tr {...headerGroup.getHeaderGroupProps()}>
                       {
                         // Loop over the headers in each row
-                        headerGroup.headers.map(column => (
-                          // Apply the header cell props
-                          // eslint-disable-next-line react/jsx-key
-                          <th
-                            className='py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400'
-                            {...column.getHeaderProps()}
-                          >
-                            {
-                              // Render the header
-                              column.render('Header')
-                            }
-                          </th>
-                        ))
+                        headerGroup.headers.map(column => {
+                          return (
+                            // Apply the header cell props
+                            // eslint-disable-next-line react/jsx-key
+                            <th
+                              className='py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400'
+                              {...column.getHeaderProps(column.getSortByToggleProps())}
+                            >
+                              {
+                                // Render the header
+                                column.render('Header')
+                              }
+                            </th>
+                          );
+                        })
                       }
                     </tr>
                   ))
