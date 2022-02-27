@@ -170,7 +170,7 @@ export default function AddMovie() {
         {imdbData && tmdbData && (
           <div className='flex flex-col md:flex-row'>
             <div className='flex flex-col'>
-              <h2 className='mb-4 text-2xl font-bold text-gray-900 max-w-xs'>
+              <h2 className='mb-4 text-2xl font-bold text-gray-100 max-w-xs'>
                 {movieFromList?.title}
               </h2>
               <Image
@@ -182,13 +182,13 @@ export default function AddMovie() {
                 placeholder='blur'
                 blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(330, 500))}`}
               />
-              <h3 className='mx-auto text-center md:mt-3 sm:text-left sm:mx-0 text-xl text-gray-900 max-w-xs'>
+              <h3 className='mx-auto text-center md:mt-3 sm:text-left sm:mx-0 text-xl text-gray-100 max-w-xs'>
                 {tmdbData.tagline}
               </h3>
               {showSubmitButton ? (
                 <button
                   onClick={handleSubmit}
-                  className='px-4 py-2 mt-4 font-bold text-gray-900 transition bg-yellow-400 rounded hover:bg-yellow-600 hover:ease-out'
+                  className='px-4 py-2 mt-4 font-bold text-gray-100 transition bg-yellow-400 rounded hover:bg-yellow-600 hover:ease-out'
                 >
                   Save to list
                 </button>
@@ -196,53 +196,53 @@ export default function AddMovie() {
                 <button
                   disabled
                   onClick={handleSubmit}
-                  className='px-4 py-2 mt-4 font-bold text-gray-900 bg-yellow-400 rounded cursor-not-allowed disabled:opacity-75'
+                  className='px-4 py-2 mt-4 font-bold text-gray-100 bg-yellow-400 rounded cursor-not-allowed disabled:opacity-75'
                 >
                   Added
                 </button>
               )}
             </div>
             <div className='w-full md:w-1/2 pt-12 pl-4 md:ml-20'>
-              <h4 className='text-lg font-bold text-gray-900'>
+              <h4 className='text-lg font-bold text-gray-100'>
                 Director: <span className='font-normal'>{imdbData.Director}</span>
               </h4>
-              <h4 className='text-lg font-bold text-gray-900'>
+              <h4 className='text-lg font-bold text-gray-100'>
                 Writer: <span className='font-normal'>{imdbData.Writer}</span>
               </h4>
-              <h4 className='text-lg font-bold text-gray-900'>
+              <h4 className='text-lg font-bold text-gray-100'>
                 Year: <span className='font-normal'>{imdbData.Year}</span>
               </h4>
-              <h4 className='text-lg font-bold text-gray-900'>
+              <h4 className='text-lg font-bold text-gray-100'>
                 Runtime: <span className='font-normal'>{imdbData.Runtime}</span>
               </h4>
-              <h4 className='text-lg font-bold text-gray-900'>
+              <h4 className='text-lg font-bold text-gray-100'>
                 Genre: <span className='font-normal'>{imdbData.Genre}</span>
               </h4>
-              <h4 className='text-lg font-bold text-gray-900'>
+              <h4 className='text-lg font-bold text-gray-100'>
                 Staring: <span className='font-normal'>{imdbData.Actors}</span>
               </h4>
-              <h4 className='text-lg font-bold text-gray-900'>
+              <h4 className='text-lg font-bold text-gray-100'>
                 Rated: <span className='font-normal'>{imdbData.Rated}</span>
               </h4>
-              <h4 className='text-lg font-bold text-gray-900'>
+              <h4 className='text-lg font-bold text-gray-100'>
                 Summary: <span className='font-normal'>{imdbData.Plot}</span>
               </h4>
-              <h4 className='text-lg font-bold text-gray-900'>
+              <h4 className='text-lg font-bold text-gray-100'>
                 Language: <span className='font-normal'>{imdbData.Language}</span>
               </h4>
-              <h4 className='text-lg font-bold text-gray-900'>
+              <h4 className='text-lg font-bold text-gray-100'>
                 Country: <span className='font-normal'>{imdbData.Country}</span>
               </h4>
-              <h4 className='text-lg font-bold text-gray-900'>
+              <h4 className='text-lg font-bold text-gray-100'>
                 Awards: <span className='font-normal'>{imdbData.Awards}</span>
               </h4>
-              <h4 className='text-lg font-bold text-gray-900'>
+              <h4 className='text-lg font-bold text-gray-100'>
                 Box Office (Domestic): <span className='font-normal'>{imdbData.BoxOffice}</span>
               </h4>
-              <h4 className='text-lg font-bold text-gray-900'>
+              <h4 className='text-lg font-bold text-gray-100'>
                 Budget: <span className='font-normal'>{formatDollar(tmdbData.budget)}</span>
               </h4>
-              <h4 className='text-lg font-bold text-gray-900'>
+              <h4 className='text-lg font-bold text-gray-100'>
                 Metascore: <span className='font-normal'>{imdbData.Metascore}</span>
               </h4>
             </div>
