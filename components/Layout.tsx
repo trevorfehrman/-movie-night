@@ -8,7 +8,7 @@ import { auth, signInWithGoogle, signOut } from 'lib/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Link from 'next/link';
 import ActiveLink from './ActiveLink';
-import { useParticipats } from 'hooks/useParticipants';
+import { useParticipants } from 'hooks/useParticipants';
 
 <svg
   xmlns='http://www.w3.org/2000/svg'
@@ -40,7 +40,7 @@ function Layout({ children }: { children: JSX.Element }) {
     { name: 'Add Movie', href: '/add-movie' },
   ]);
   const [user, loading, error] = useAuthState(auth);
-  const particpants = useParticipats();
+  const particpants = useParticipants();
 
   return (
     <>

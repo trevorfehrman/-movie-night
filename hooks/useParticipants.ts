@@ -5,6 +5,6 @@ interface Participants {
   cursor: number;
 }
 
-export function useParticipats() {
+export function useParticipants() {
   return useCollectionData<Participants>('participants');
 }

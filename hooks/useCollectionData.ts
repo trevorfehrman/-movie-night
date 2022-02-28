@@ -6,7 +6,7 @@ export function useCollectionData<T>(collectionPath: string) {
   const [docs, setDocs] = React.useState<T[]>([]);
 
   React.useEffect(() => {
-    const q = query(collection(db, collectionPath), orderBy('createdAt'));
+    const q = query(collection(db, collectionPath), orderBy('createdAt', 'desc'));
     const unsubscribe = onSnapshot(
       q,
       querySnapshot => {

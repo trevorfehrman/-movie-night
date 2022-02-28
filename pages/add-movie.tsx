@@ -12,14 +12,18 @@ import '@reach/combobox/styles.css';
 import { useDebounce } from 'hooks/useDebounce';
 import { getMovieDetails, IMDBDetails as ImdbDetails } from 'lib/omdb';
 import { collection, doc, setDoc, where, query, getDocs } from 'firebase/firestore';
-import { db } from 'lib/firebase';
+import { auth, db } from 'lib/firebase';
 
 import { v4 as uuidv4 } from 'uuid';
 import { formatDollar } from 'lib/formatDollar';
 import { shimmer, toBase64 } from 'components/Shimmer';
 import { BASE_IMG_URL_ORIGINAL } from 'constants/imageUrls';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useParticipants } from 'hooks/useParticipants';
 
 export default function AddMovie() {
+  const [user, loading, error] = useAuthState(auth);
+  const [participantsCollection] = useParticipants();
   const [term, setTerm] = React.useState('');
   const debouncedTerm = useDebounce(term, 500);
 
@@ -71,20 +75,22 @@ export default function AddMovie() {
         const matches = [];
 
         querySnapshot.forEach(doc => {
-          console.log(doc);
           if (doc.exists()) {
             matches.push(doc);
           }
         });
 
-        if (matches.length === 0) {
-          console.log('why ami here');
+        if (
+          matches.length === 0 &&
+          user?.displayName?.split(' ')[0] ===
+            participantsCollection.participants[participantsCollection.cursor]
+        ) {
           setShowSubmitButton(true);
         }
       }
     }
     init();
-  }, [movieFromList]);
+  }, [movieFromList, participantsCollection, user]);
 
   async function handleSubmit() {
     if (movieFromList && imdbData && tmdbData) {
@@ -187,9 +193,8 @@ export default function AddMovie() {
               </h3>
               {showSubmitButton ? (
                 <button
-                  disabled
                   onClick={handleSubmit}
-                  className='px-4 py-2 mt-4 font-bold text-gray-100 transition bg-yellow-400 rounded hover:bg-yellow-600 hover:ease-out'
+                  className='cursor-pointer px-4 py-2 mt-4 font-bold text-gray-100 transition bg-yellow-400 rounded hover:bg-yellow-600 hover:ease-out'
                 >
                   Save to list
                 </button>
@@ -198,7 +203,10 @@ export default function AddMovie() {
                   disabled
                   className='px-4 py-2 mt-4 font-bold text-gray-100 bg-yellow-400 rounded cursor-not-allowed disabled:opacity-75'
                 >
-                  Added
+                  {user?.displayName?.split(' ')[0] ===
+                  participantsCollection.participants[participantsCollection.cursor]
+                    ? 'Added'
+                    : 'Not your turn'}
                 </button>
               )}
             </div>

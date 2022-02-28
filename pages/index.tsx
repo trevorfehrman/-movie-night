@@ -6,7 +6,6 @@ import Image from 'next/image';
 
 import { Movie, useMovies } from 'hooks/useMovies';
 import { BASE_IMG_URL_ORIGINAL } from 'constants/imageUrls';
-import { useParticipats } from 'hooks/useParticipants';
 
 const Home: NextPage = () => {
   const columns = React.useMemo(() => {
@@ -15,7 +14,7 @@ const Home: NextPage = () => {
         Header: 'Index',
         accessor: '',
         Cell: (d: CellProps<Movie>) => {
-          return <div>{Number(d.row.id) + 1}</div>;
+          return <div>{d.rows.length - Number(d.row.id)}</div>;
         },
       },
       {
