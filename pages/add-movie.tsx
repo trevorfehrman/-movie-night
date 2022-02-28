@@ -88,9 +88,10 @@ export default function AddMovie() {
           setShowSubmitButton(true);
         }
       }
+      console.log(results, imdbData);
     }
     init();
-  }, [movieFromList, participantsCollection, user]);
+  }, [movieFromList, participantsCollection, user, imdbData]);
 
   async function handleSubmit() {
     if (movieFromList && imdbData && tmdbData) {
@@ -114,6 +115,7 @@ export default function AddMovie() {
         rated: imdbData.Rated,
         metascore: imdbData.Metascore,
         createdAt: Date.now(),
+        picker: user?.displayName?.split(' ')[0],
       });
     }
 
