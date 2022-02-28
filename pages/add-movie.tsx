@@ -187,6 +187,7 @@ export default function AddMovie() {
               </h3>
               {showSubmitButton ? (
                 <button
+                  disabled
                   onClick={handleSubmit}
                   className='px-4 py-2 mt-4 font-bold text-gray-100 transition bg-yellow-400 rounded hover:bg-yellow-600 hover:ease-out'
                 >
@@ -195,7 +196,6 @@ export default function AddMovie() {
               ) : (
                 <button
                   disabled
-                  onClick={handleSubmit}
                   className='px-4 py-2 mt-4 font-bold text-gray-100 bg-yellow-400 rounded cursor-not-allowed disabled:opacity-75'
                 >
                   Added
