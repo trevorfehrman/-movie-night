@@ -1,6 +1,6 @@
 import { useCollectionData } from './useCollectionData';
 
-interface Participants {
+export interface Participants {
   participants: string[];
   cursor: number;
 }

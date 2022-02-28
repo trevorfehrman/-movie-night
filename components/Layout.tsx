@@ -9,6 +9,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import Link from 'next/link';
 import ActiveLink from './ActiveLink';
 import { useParticipants } from 'hooks/useParticipants';
+import { Participant } from './Participant';
 
 <svg
   xmlns='http://www.w3.org/2000/svg'
@@ -40,7 +41,7 @@ function Layout({ children }: { children: JSX.Element }) {
     { name: 'Add Movie', href: '/add-movie' },
   ]);
   const [user, loading, error] = useAuthState(auth);
-  const particpants = useParticipants();
+  const [participantsCollection] = useParticipants();
 
   return (
     <>
@@ -237,11 +238,13 @@ function Layout({ children }: { children: JSX.Element }) {
           )}
         </Disclosure>
 
-        <header className=' bg-gray-800 shadow'>
-          <div className='px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8'>
-            <h1 className='text-3xl font-bold text-gray-100'>
-              {particpants[0]?.participants[particpants[0].cursor]}
-            </h1>
+        <header className=' bg-gray-800 shadow bg-gradient-to-r from-yellow-400 to-yellow-200'>
+          <div className='px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8 hidden md:flex flex-wrap '>
+            {participantsCollection &&
+              participantsCollection.participants
+                .slice(participantsCollection.cursor)
+                .concat(participantsCollection.participants.slice(0, participantsCollection.cursor))
+                .map(participant => <Participant key={participant} participant={participant} />)}
           </div>
         </header>
         <main>
