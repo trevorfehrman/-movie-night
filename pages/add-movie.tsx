@@ -88,10 +88,17 @@ export default function AddMovie() {
           setShowSubmitButton(true);
         }
       }
-      console.log(results, imdbData);
     }
     init();
-  }, [movieFromList, participantsCollection, user, imdbData]);
+    // TODO an infinite loop here
+    console.log('loop');
+  }, [
+    movieFromList?.id,
+    movieFromList?.title,
+    participantsCollection?.cursor,
+    participantsCollection?.participants,
+    user?.displayName,
+  ]);
 
   async function handleSubmit() {
     if (movieFromList && imdbData && tmdbData) {
