@@ -51,11 +51,11 @@ const Home: NextPage = () => {
     ];
   }, []);
 
-  const movies = useMovies();
+  // const movies = useMovies();
 
-  const tableInstance = useTable({ columns: columns as any, data: movies }, useSortBy);
+  // const tableInstance = useTable({ columns: columns as any, data: movies }, useSortBy);
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
+  // const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
 
   return (
     <div className='flex flex-col'>
