@@ -26,5 +26,6 @@ export interface Movie {
 }
 
 export function useMovies() {
+  console.log('use movies');
   return useCollectionData<Movie>('movies');
 }

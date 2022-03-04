@@ -3,9 +3,11 @@ import * as React from 'react';
 import { db } from 'lib/firebase';
 
 export function useCollectionData<T>(collectionPath: string) {
+  console.log('use collection data');
   const [docs, setDocs] = React.useState<T[]>([]);
 
   React.useEffect(() => {
+    console.log('use effect');
     const q = query(collection(db, collectionPath), orderBy('createdAt', 'desc'));
     const unsubscribe = onSnapshot(
       q,

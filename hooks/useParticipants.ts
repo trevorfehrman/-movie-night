@@ -6,5 +6,6 @@ export interface Participants {
 }
 
 export function useParticipants() {
+  console.log('useparticipants');
   return useCollectionData<Participants>('participants');
 }

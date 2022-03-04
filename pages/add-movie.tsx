@@ -37,67 +37,66 @@ export default function AddMovie() {
   const [showSubmitButton, setShowSubmitButton] = React.useState(false);
 
   // Search for titles
-  React.useEffect(() => {
-    if (!debouncedTerm) {
-      setMovieFromList(undefined);
-      setTmdbData(undefined);
-      setImdbData(undefined);
-    }
-    async function init() {
-      if (debouncedTerm) {
-        setIsSearching(true);
-        const titleOptions = await searchTitle(debouncedTerm);
-        setOptions(titleOptions.data);
-        setIsSearching(false);
-      } else {
-        setOptions(undefined);
-        setIsSearching(false);
-      }
-    }
-    init();
-  }, [debouncedTerm]);
+  // React.useEffect(() => {
+  //   if (!debouncedTerm) {
+  //     setMovieFromList(undefined);
+  //     setTmdbData(undefined);
+  //     setImdbData(undefined);
+  //   }
+  //   async function init() {
+  //     if (debouncedTerm) {
+  //       setIsSearching(true);
+  //       const titleOptions = await searchTitle(debouncedTerm);
+  //       setOptions(titleOptions.data);
+  //       setIsSearching(false);
+  //     } else {
+  //       setOptions(undefined);
+  //       setIsSearching(false);
+  //     }
+  //   }
+  //   init();
+  // }, [debouncedTerm]);
 
   // Get movie data after selection
-  React.useEffect(() => {
-    async function init() {
-      const results = await getMovieData(movieFromList?.id);
-      setTmdbData(results?.data);
+  // React.useEffect(() => {
+  //   async function init() {
+  //     const results = await getMovieData(movieFromList?.id);
+  //     setTmdbData(results?.data);
 
-      if (results && results.data.imdb_id) {
-        const imdbResults = await getMovieDetails(results.data.imdb_id);
-        setImdbData(imdbResults?.data);
-      }
+  //     if (results?.data.imdb_id) {
+  //       const imdbResults = await getMovieDetails(results.data.imdb_id);
+  //       setImdbData(imdbResults?.data);
+  //     }
 
-      if (movieFromList?.title) {
-        const q = query(collection(db, 'movies'), where('title', '==', movieFromList?.title));
-        const querySnapshot = await getDocs(q);
+  //     if (movieFromList?.title) {
+  //       const q = query(collection(db, 'movies'), where('title', '==', movieFromList?.title));
+  //       const querySnapshot = await getDocs(q);
 
-        const matches = [];
+  //       const matches = [];
 
-        querySnapshot.forEach(doc => {
-          if (doc.exists()) {
-            matches.push(doc);
-          }
-        });
+  //       querySnapshot.forEach(doc => {
+  //         if (doc.exists()) {
+  //           matches.push(doc);
+  //         }
+  //       });
 
-        if (
-          matches.length === 0 &&
-          user?.displayName?.split(' ')[0] ===
-            participantsCollection.participants[participantsCollection.cursor]
-        ) {
-          setShowSubmitButton(true);
-        }
-      }
-    }
-    init();
-    // TODO an infinite loop here
-  }, [
-    movieFromList?.id,
-    movieFromList?.title,
-    participantsCollection?.cursor,
-    participantsCollection?.participants,
-    user?.displayName,
-  ]);
+  //       if (
+  //         matches.length === 0 &&
+  //         user?.displayName?.split(' ')[0] ===
+  //           participantsCollection.participants[participantsCollection.cursor]
+  //       ) {
+  //         setShowSubmitButton(true);
+  //       }
+  //     }
+  //   }
+  //   init();
+  // }, [
+  //   movieFromList?.id,
+  //   movieFromList?.title,
+  //   participantsCollection?.cursor,
+  //   participantsCollection?.participants,
+  //   user?.displayName,
+  // ]);
 
   async function handleSubmit() {
     if (movieFromList && imdbData && tmdbData) {
@@ -135,7 +134,7 @@ export default function AddMovie() {
 
   return (
     <div className='flex flex-col justify-center items-center'>
-      <Combobox
+      {/* <Combobox
         aria-labelledby='movie title search'
         className=' w-full relative flex justify-center md:w-1/2'
       >
@@ -264,7 +263,7 @@ export default function AddMovie() {
             </div>
           </div>
         )}
-      </section>
+      </section> */}
     </div>
   );
 }
