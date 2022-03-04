@@ -40,8 +40,8 @@ function Layout({ children }: { children: JSX.Element }) {
     { name: 'Dashboard', href: '/' },
     { name: 'Add Movie', href: '/add-movie' },
   ]);
-  const [user, loading, error] = useAuthState(auth);
-  const [participantsCollection] = useParticipants();
+  // const [user, loading, error] = useAuthState(auth);
+  // const [participantsCollection] = useParticipants();
 
   return (
     <>
@@ -87,7 +87,7 @@ function Layout({ children }: { children: JSX.Element }) {
                         <BellIcon className='w-6 h-6' aria-hidden='true' />
                       </button>
                       {/* Profile dropdown */}
-                      {!user ? (
+                      {/* {!user ? (
                         <button
                           className='px-4 py-2 ml-4 font-bold text-gray-900 transition bg-yellow-400 rounded hover:bg-yellow-600 hover:ease-out'
                           onClick={signInWithGoogle}
@@ -152,7 +152,7 @@ function Layout({ children }: { children: JSX.Element }) {
                             </Menu.Items>
                           </Transition>
                         </Menu>
-                      )}
+                      )} */}
                     </div>
                   </div>
                   <div className='flex -mr-2 md:hidden'>
@@ -189,7 +189,7 @@ function Layout({ children }: { children: JSX.Element }) {
                     </ActiveLink>
                   ))}
                 </div>
-                {user && (
+                {/* {user && (
                   <div className='pt-4 pb-3 border-t border-gray-700'>
                     <div className='flex items-center px-5'>
                       {user.photoURL && (
@@ -232,20 +232,20 @@ function Layout({ children }: { children: JSX.Element }) {
                       ))}
                     </div>
                   </div>
-                )}
+                )} */}
               </Disclosure.Panel>
             </>
           )}
         </Disclosure>
 
         <header className=' bg-gray-800 shadow bg-gradient-to-r from-yellow-400 to-yellow-200'>
-          <div className='px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8 hidden md:flex flex-wrap '>
+          {/* <div className='px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8 hidden md:flex flex-wrap '>
             {participantsCollection &&
               participantsCollection.participants
                 .slice(participantsCollection.cursor)
                 .concat(participantsCollection.participants.slice(0, participantsCollection.cursor))
                 .map(participant => <Participant key={participant} participant={participant} />)}
-          </div>
+          </div> */}
         </header>
         <main>
           <div className='py-6 mx-auto max-w-7xl sm:px-6 lg:px-8'>{children}</div>

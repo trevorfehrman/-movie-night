@@ -22,8 +22,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useParticipants } from 'hooks/useParticipants';
 
 export default function AddMovie() {
-  const [user, loading, error] = useAuthState(auth);
-  const [participantsCollection] = useParticipants();
+  // const [user, loading, error] = useAuthState(auth);
+  // const [participantsCollection] = useParticipants();
   const [term, setTerm] = React.useState('');
   const debouncedTerm = useDebounce(term, 500);
 
@@ -120,7 +120,7 @@ export default function AddMovie() {
         rated: imdbData.Rated,
         metascore: imdbData.Metascore,
         createdAt: Date.now(),
-        picker: user?.displayName?.split(' ')[0],
+        // picker: user?.displayName?.split(' ')[0],
       });
     }
 
