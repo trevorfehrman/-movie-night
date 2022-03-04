@@ -91,7 +91,6 @@ export default function AddMovie() {
     }
     init();
     // TODO an infinite loop here
-    console.log('loop');
   }, [
     movieFromList?.id,
     movieFromList?.title,
