@@ -189,7 +189,7 @@ function Layout({ children }: { children: JSX.Element }) {
                     </ActiveLink>
                   ))}
                 </div>
-                {/* {user && (
+                {user && (
                   <div className='pt-4 pb-3 border-t border-gray-700'>
                     <div className='flex items-center px-5'>
                       {user.photoURL && (
@@ -232,20 +232,20 @@ function Layout({ children }: { children: JSX.Element }) {
                       ))}
                     </div>
                   </div>
-                )} */}
+                )}
               </Disclosure.Panel>
             </>
           )}
         </Disclosure>
 
         <header className=' bg-gray-800 shadow bg-gradient-to-r from-yellow-400 to-yellow-200'>
-          {/* <div className='px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8 hidden md:flex flex-wrap '>
+          <div className='px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8 hidden md:flex flex-wrap '>
             {participantsCollection &&
               participantsCollection.participants
                 .slice(participantsCollection.cursor)
                 .concat(participantsCollection.participants.slice(0, participantsCollection.cursor))
                 .map(participant => <Participant key={participant} participant={participant} />)}
-          </div> */}
+          </div>
         </header>
         <main>
           <div className='py-6 mx-auto max-w-7xl sm:px-6 lg:px-8'>{children}</div>
