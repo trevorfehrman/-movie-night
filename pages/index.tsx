@@ -51,18 +51,18 @@ const Home: NextPage = () => {
     ];
   }, []);
 
-  // const movies = useMovies();
+  const movies = useMovies();
 
-  // const tableInstance = useTable({ columns: columns as any, data: movies }, useSortBy);
+  const tableInstance = useTable({ columns: columns as any, data: movies }, useSortBy);
 
-  // const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
 
   return (
     <div className='flex flex-col'>
       <div className='overflow-x-auto shadow-md sm:rounded-lg'>
         <div className='inline-block min-w-full align-middle'>
           <div className='overflow-hidden'>
-            {/* <table
+            <table
               className='min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700'
               {...getTableProps()}
             >
@@ -104,7 +104,7 @@ const Home: NextPage = () => {
                   );
                 })}
               </tbody>
-            </table> */}
+            </table>
           </div>
         </div>
       </div>
