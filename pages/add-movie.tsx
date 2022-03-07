@@ -20,10 +20,11 @@ import { shimmer, toBase64 } from 'components/Shimmer';
 import { BASE_IMG_URL_ORIGINAL } from 'constants/imageUrls';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { ParticipantsContext } from './_app';
+import { useParticipants } from 'hooks/useParticipants';
 
 export default function AddMovie() {
   const [user, loading, error] = useAuthState(auth);
-  const { participants: participantsCollection } = React.useContext(ParticipantsContext);
+  const { participantsCollection } = useParticipants();
   const [term, setTerm] = React.useState('');
   const debouncedTerm = useDebounce(term, 500);
 
@@ -84,7 +85,7 @@ export default function AddMovie() {
         if (
           matches.length === 0 &&
           user?.displayName?.split(' ')[0] ===
-            participantsCollection?.participants[participantsCollection.cursor]
+            participantsCollection.participants[participantsCollection.cursor]
         ) {
           setShowSubmitButton(true);
         }
@@ -207,7 +208,7 @@ export default function AddMovie() {
                   className='px-4 py-2 mt-4 font-bold text-gray-100 bg-yellow-400 rounded cursor-not-allowed disabled:opacity-75'
                 >
                   {user?.displayName?.split(' ')[0] ===
-                  participantsCollection?.participants[participantsCollection.cursor]
+                  participantsCollection.participants[participantsCollection.cursor]
                     ? 'Added'
                     : 'Not your turn'}
                 </button>

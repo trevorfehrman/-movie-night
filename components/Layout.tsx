@@ -3,13 +3,24 @@ import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon, FilmIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
-import { auth, signInWithGoogle, signOut } from 'lib/firebase';
+import { auth, db, signInWithGoogle, signOut } from 'lib/firebase';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Link from 'next/link';
 import ActiveLink from './ActiveLink';
 import { Participant } from './Participant';
 import { ParticipantsContext } from 'pages/_app';
+import { Participants, useParticipants } from 'hooks/useParticipants';
+import {
+  FirestoreDataConverter,
+  WithFieldValue,
+  DocumentData,
+  QueryDocumentSnapshot,
+  SnapshotOptions,
+  collection,
+  query,
+} from 'firebase/firestore';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 <svg
   xmlns='http://www.w3.org/2000/svg'
@@ -40,8 +51,8 @@ function Layout({ children }: { children: JSX.Element }) {
     { name: 'Dashboard', href: '/' },
     { name: 'Add Movie', href: '/add-movie' },
   ]);
-  const [user, loading, error] = useAuthState(auth);
-  const { participants: participantsCollection } = React.useContext(ParticipantsContext);
+  const [user, authLoading, authError] = useAuthState(auth);
+  const { participantsCollection } = useParticipants();
 
   return (
     <>
@@ -240,11 +251,12 @@ function Layout({ children }: { children: JSX.Element }) {
 
         <header className=' bg-gray-800 shadow bg-gradient-to-r from-yellow-400 to-yellow-200'>
           <div className='px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8 hidden md:flex flex-wrap '>
-            {participantsCollection &&
-              participantsCollection.participants
-                .slice(participantsCollection.cursor)
-                .concat(participantsCollection.participants.slice(0, participantsCollection.cursor))
-                .map(participant => <Participant key={participant} participant={participant} />)}
+            {participantsCollection.participants
+              .slice(participantsCollection.cursor)
+              .concat(participantsCollection.participants.slice(0, participantsCollection.cursor))
+              .map(participant => (
+                <Participant key={participant} participant={participant} />
+              ))}
           </div>
         </header>
         <main>

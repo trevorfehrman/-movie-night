@@ -51,9 +51,18 @@ const Home: NextPage = () => {
     ];
   }, []);
 
-  const movies = useMovies();
+  const { movies } = useMovies();
 
-  const tableInstance = useTable({ columns: columns as any, data: movies }, useSortBy);
+  const [moviesList, setMoviesList] = React.useState<Movie[]>([]);
+
+  React.useEffect(() => {
+    console.log('hi ');
+    if (movies) {
+      setMoviesList(movies);
+    }
+  }, [movies]);
+
+  const tableInstance = useTable({ columns: columns as any, data: moviesList }, useSortBy);
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
 

@@ -1,5 +1,15 @@
+import {
+  collection,
+  DocumentData,
+  FirestoreDataConverter,
+  query,
+  QueryDocumentSnapshot,
+  SnapshotOptions,
+  WithFieldValue,
+} from 'firebase/firestore';
+import { db } from 'lib/firebase';
 import { ProductionCompany } from 'lib/tmdb';
-import { useCollectionData } from './useCollectionData';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 export interface Movie {
   id: string;
@@ -25,7 +35,43 @@ export interface Movie {
   createdAt: string;
 }
 
+const moviesConverter: FirestoreDataConverter<Movie> = {
+  toFirestore(movies: WithFieldValue<Movie>): DocumentData {
+    return { ...movies };
+  },
+  fromFirestore(snapshot: QueryDocumentSnapshot, options: SnapshotOptions): Movie {
+    const data = snapshot.data(options);
+    return {
+      id: snapshot.id,
+      title: data.title,
+      tagline: data.tagline,
+      posterPath: data.posterPath,
+      director: data.director,
+      picker: data.picker,
+      writer: data.writer,
+      year: data.year,
+      runtime: data.runtime,
+      genre: data.genre,
+      actors: data.actors,
+      plot: data.plot,
+      language: data.language,
+      country: data.country,
+      productionCompanies: data.productionCompanies,
+      awards: data.awards,
+      budget: data.budget,
+      boxOffice: data.boxOffice,
+      rated: data.rated,
+      metascore: data.metascore,
+      createdAt: data.createdAt,
+    };
+  },
+};
+
+const moviesRef = collection(db, 'movies').withConverter(moviesConverter);
+const moviesQuery = query(moviesRef);
+
 export function useMovies() {
-  console.log('use movies');
-  return useCollectionData<Movie>('movies');
+  const [movies, loading, error] = useCollectionData(moviesQuery);
+
+  return { movies, loading, error };
 }

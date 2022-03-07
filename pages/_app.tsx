@@ -3,31 +3,35 @@ import 'styles/globals.css';
 import type { AppProps } from 'next/app';
 import { Layout } from 'components/Layout';
 import { Participants, useParticipants } from 'hooks/useParticipants';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
+import {
+  collection,
+  DocumentData,
+  FirestoreDataConverter,
+  query,
+  QueryDocumentSnapshot,
+  SnapshotOptions,
+  WithFieldValue,
+} from 'firebase/firestore';
+import { db } from 'lib/firebase';
 
 interface ParticipantsContextValue {
-  participants: Participants | undefined;
-  setParticipants: React.Dispatch<React.SetStateAction<Participants | undefined>>;
+  participantsCollection: Participants[] | undefined;
 }
 
 export const ParticipantsContext = React.createContext<ParticipantsContextValue>({
-  participants: { participants: [], cursor: 0 },
-  setParticipants: () => undefined,
+  participantsCollection: undefined,
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const participantsCollection = useParticipants();
+  // const { participantsCollection } = useParticipants();
 
-  React.useEffect(() => {
-    setParticipants(participantsCollection[0]);
-  }, [participantsCollection]);
-
-  const [participants, setParticipants] = React.useState<Participants>();
   return (
-    <ParticipantsContext.Provider value={{ participants, setParticipants }}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </ParticipantsContext.Provider>
+    // <ParticipantsContext.Provider value={{ participantsCollection }}>
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
+    // </ParticipantsContext.Provider>
   );
 }
 
