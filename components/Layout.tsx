@@ -40,8 +40,8 @@ function Layout({ children }: { children: JSX.Element }) {
     { name: 'Dashboard', href: '/' },
     { name: 'Add Movie', href: '/add-movie' },
   ]);
-  // const [user, loading, error] = useAuthState(auth);
-  // const [participantsCollection] = useParticipants();
+  const [user, loading, error] = useAuthState(auth);
+  const [participantsCollection] = useParticipants();
 
   return (
     <>
@@ -87,7 +87,7 @@ function Layout({ children }: { children: JSX.Element }) {
                         <BellIcon className='w-6 h-6' aria-hidden='true' />
                       </button>
                       {/* Profile dropdown */}
-                      {/* {!user ? (
+                      {!user ? (
                         <button
                           className='px-4 py-2 ml-4 font-bold text-gray-900 transition bg-yellow-400 rounded hover:bg-yellow-600 hover:ease-out'
                           onClick={signInWithGoogle}
@@ -152,7 +152,7 @@ function Layout({ children }: { children: JSX.Element }) {
                             </Menu.Items>
                           </Transition>
                         </Menu>
-                      )} */}
+                      )}
                     </div>
                   </div>
                   <div className='flex -mr-2 md:hidden'>
