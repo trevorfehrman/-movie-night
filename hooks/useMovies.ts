@@ -34,6 +34,7 @@ export interface Movie {
   rated: string;
   metascore: string;
   createdAt: string;
+  rouzies: string;
 }
 
 const moviesConverter: FirestoreDataConverter<Movie> = {
@@ -64,6 +65,7 @@ const moviesConverter: FirestoreDataConverter<Movie> = {
       rated: data.rated,
       metascore: data.metascore,
       createdAt: data.createdAt,
+      rouzies: data.rouzies,
     };
   },
 };
