@@ -2,6 +2,7 @@ import {
   collection,
   DocumentData,
   FirestoreDataConverter,
+  orderBy,
   query,
   QueryDocumentSnapshot,
   SnapshotOptions,
@@ -68,7 +69,7 @@ const moviesConverter: FirestoreDataConverter<Movie> = {
 };
 
 const moviesRef = collection(db, 'movies').withConverter(moviesConverter);
-const moviesQuery = query(moviesRef);
+const moviesQuery = query(moviesRef, orderBy('createdAt', 'desc'));
 
 export function useMovies() {
   const [movies, loading, error] = useCollectionData(moviesQuery);
