@@ -19,9 +19,10 @@ interface ParticipantsContextValue {
   participantsCollection: Participants[] | undefined;
 }
 
-export const ParticipantsContext = React.createContext<ParticipantsContextValue>({
-  participantsCollection: undefined,
-});
+export const ParticipantsContext =
+  React.createContext<ParticipantsContextValue>({
+    participantsCollection: undefined,
+  });
 
 function MyApp({ Component, pageProps }: AppProps) {
   // const { participantsCollection } = useParticipants();

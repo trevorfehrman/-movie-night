@@ -21,7 +21,14 @@ const Home: NextPage = () => {
         Header: 'Poster',
         accessor: (d: any): string => `${BASE_IMG_URL_ORIGINAL}${d.posterPath}`,
         Cell: (row: CellProps<Movie>) => {
-          return <Image alt='Movie poster' src={row.cell.value} height={100} width={66} />;
+          return (
+            <Image
+              alt='Movie poster'
+              src={row.cell.value}
+              height={100}
+              width={66}
+            />
+          );
         },
       },
       {
@@ -62,9 +69,13 @@ const Home: NextPage = () => {
     }
   }, [movies]);
 
-  const tableInstance = useTable({ columns: columns as any, data: moviesList }, useSortBy);
+  const tableInstance = useTable(
+    { columns: columns as any, data: moviesList },
+    useSortBy
+  );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    tableInstance;
 
   return (
     <div className='flex flex-col'>
@@ -76,13 +87,15 @@ const Home: NextPage = () => {
               {...getTableProps()}
             >
               <thead className='bg-gray-100 dark:bg-gray-700'>
-                {headerGroups.map(headerGroup => (
+                {headerGroups.map((headerGroup) => (
                   <tr {...headerGroup.getHeaderGroupProps()}>
-                    {headerGroup.headers.map(column => {
+                    {headerGroup.headers.map((column) => {
                       return (
                         <th
                           className='py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400'
-                          {...column.getHeaderProps(column.getSortByToggleProps())}
+                          {...column.getHeaderProps(
+                            column.getSortByToggleProps()
+                          )}
                         >
                           {column.render('Header')}
                         </th>
@@ -95,11 +108,14 @@ const Home: NextPage = () => {
                 className='bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700'
                 {...getTableBodyProps()}
               >
-                {rows.map(row => {
+                {rows.map((row) => {
                   prepareRow(row);
                   return (
-                    <tr className='hover:bg-gray-100 dark:hover:bg-gray-700' {...row.getRowProps()}>
-                      {row.cells.map(cell => {
+                    <tr
+                      className='hover:bg-gray-100 dark:hover:bg-gray-700'
+                      {...row.getRowProps()}
+                    >
+                      {row.cells.map((cell) => {
                         return (
                           <td
                             className='py-4 px-6 text-sm font-medium text-gray-900 whitespace-normal break-words dark:text-white'

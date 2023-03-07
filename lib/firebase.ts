@@ -33,4 +33,12 @@ function signOut() {
   auth.signOut();
 }
 
-export { app, googleAuthProvider, auth, db, storage, signInWithGoogle, signOut };
+export {
+  app,
+  googleAuthProvider,
+  auth,
+  db,
+  storage,
+  signInWithGoogle,
+  signOut,
+};

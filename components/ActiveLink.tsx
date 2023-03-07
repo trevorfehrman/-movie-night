@@ -10,7 +10,11 @@ interface ActiveLinkProps {
   href: string;
 }
 
-const ActiveLink = ({ children, activeClassName, ...props }: ActiveLinkProps) => {
+const ActiveLink = ({
+  children,
+  activeClassName,
+  ...props
+}: ActiveLinkProps) => {
   const { asPath, isReady } = useRouter();
 
   const child = React.Children.only(children);
@@ -22,7 +26,8 @@ const ActiveLink = ({ children, activeClassName, ...props }: ActiveLinkProps) =>
     if (isReady) {
       // Dynamic route will be matched via props.as
       // Static route will be matched via props.href
-      const linkPathname = new URL(props.as || props.href, location.href).pathname;
+      const linkPathname = new URL(props.as || props.href, location.href)
+        .pathname;
 
       // Using URL().pathname to get rid of query and hash
       const activePathname = new URL(asPath, location.href).pathname;

@@ -7,11 +7,24 @@ import {
   ComboboxList,
   ComboboxOption,
 } from '@reach/combobox';
-import { getMovieData, Result, SearchResult, searchTitle, TmdbDetails } from 'lib/tmdb';
+import {
+  getMovieData,
+  Result,
+  SearchResult,
+  searchTitle,
+  TmdbDetails,
+} from 'lib/tmdb';
 import '@reach/combobox/styles.css';
 import { useDebounce } from 'hooks/useDebounce';
 import { getMovieDetails, IMDBDetails as ImdbDetails } from 'lib/omdb';
-import { collection, doc, setDoc, where, query, getDocs } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  setDoc,
+  where,
+  query,
+  getDocs,
+} from 'firebase/firestore';
 import { auth, db } from 'lib/firebase';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -71,12 +84,15 @@ export default function AddMovie() {
       }
 
       if (movieFromList?.title) {
-        const q = query(collection(db, 'movies'), where('title', '==', movieFromList?.title));
+        const q = query(
+          collection(db, 'movies'),
+          where('title', '==', movieFromList?.title)
+        );
         const querySnapshot = await getDocs(q);
 
         const matches = [];
 
-        querySnapshot.forEach(doc => {
+        querySnapshot.forEach((doc) => {
           if (doc.exists()) {
             matches.push(doc);
           }
@@ -93,7 +109,12 @@ export default function AddMovie() {
     }
     init();
     console.log('set data effect');
-  }, [movieFromList?.id, movieFromList?.title, participantsCollection, user?.displayName]);
+  }, [
+    movieFromList?.id,
+    movieFromList?.title,
+    participantsCollection,
+    user?.displayName,
+  ]);
 
   async function handleSubmit() {
     if (movieFromList && imdbData && tmdbData) {
@@ -101,15 +122,19 @@ export default function AddMovie() {
         title: movieFromList.title,
         tagline: tmdbData.tagline,
         posterPath: movieFromList.poster_path,
-        director: imdbData.Director.split(',').map(director => director.trim()),
-        writer: imdbData.Writer.split(',').map(writer => writer.trim()),
+        director: imdbData.Director.split(',').map((director) =>
+          director.trim()
+        ),
+        writer: imdbData.Writer.split(',').map((writer) => writer.trim()),
         year: imdbData.Year,
         runtime: imdbData.Runtime,
-        genre: imdbData.Genre.split(',').map(genre => genre.trim()),
-        actors: imdbData.Actors.split(',').map(actor => actor.trim()),
+        genre: imdbData.Genre.split(',').map((genre) => genre.trim()),
+        actors: imdbData.Actors.split(',').map((actor) => actor.trim()),
         plot: imdbData.Plot,
-        language: imdbData.Language.split(',').map(language => language.trim()),
-        country: imdbData.Country.split(',').map(country => country.trim()),
+        language: imdbData.Language.split(',').map((language) =>
+          language.trim()
+        ),
+        country: imdbData.Country.split(',').map((country) => country.trim()),
         productionCompanies: tmdbData.production_companies,
         awards: imdbData.Awards,
         budget: tmdbData.budget,
@@ -137,7 +162,7 @@ export default function AddMovie() {
       >
         <ComboboxInput
           value={term}
-          onChange={e => setTerm(e.target.value)}
+          onChange={(e) => setTerm(e.target.value)}
           placeholder='Movie Title... (e.g. Total Recall)'
           className='w-full px-3 py-2 mb-6 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline'
           type='search'
@@ -165,11 +190,13 @@ export default function AddMovie() {
 
         <ComboboxPopover>
           <ComboboxList>
-            {options?.results?.map(option => (
+            {options?.results?.map((option) => (
               <ComboboxOption
                 className='font-normal'
                 key={option.id}
-                value={`${option.title} - ${option.release_date?.split('-')[0]}`}
+                value={`${option.title} - ${
+                  option.release_date?.split('-')[0]
+                }`}
                 onClick={() => handleSetMovie(option)}
               />
             ))}
@@ -190,7 +217,9 @@ export default function AddMovie() {
                 height={500}
                 layout='responsive'
                 placeholder='blur'
-                blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(330, 500))}`}
+                blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                  shimmer(330, 500)
+                )}`}
               />
               <h3 className='mx-auto text-center md:mt-3 sm:text-left sm:mx-0 text-xl text-gray-100 max-w-xs'>
                 {tmdbData.tagline}
@@ -208,7 +237,9 @@ export default function AddMovie() {
                   className='px-4 py-2 mt-4 font-bold text-gray-100 bg-yellow-400 rounded cursor-not-allowed disabled:opacity-75'
                 >
                   {user?.displayName?.split(' ')[0] ===
-                  participantsCollection.participants[participantsCollection.cursor]
+                  participantsCollection.participants[
+                    participantsCollection.cursor
+                  ]
                     ? 'Added'
                     : 'Not your turn'}
                 </button>
@@ -216,7 +247,8 @@ export default function AddMovie() {
             </div>
             <div className='w-full md:w-1/2 pt-12 pl-4 md:ml-20'>
               <h4 className='text-lg font-bold text-gray-100'>
-                Director: <span className='font-normal'>{imdbData.Director}</span>
+                Director:{' '}
+                <span className='font-normal'>{imdbData.Director}</span>
               </h4>
               <h4 className='text-lg font-bold text-gray-100'>
                 Writer: <span className='font-normal'>{imdbData.Writer}</span>
@@ -240,7 +272,8 @@ export default function AddMovie() {
                 Summary: <span className='font-normal'>{imdbData.Plot}</span>
               </h4>
               <h4 className='text-lg font-bold text-gray-100'>
-                Language: <span className='font-normal'>{imdbData.Language}</span>
+                Language:{' '}
+                <span className='font-normal'>{imdbData.Language}</span>
               </h4>
               <h4 className='text-lg font-bold text-gray-100'>
                 Country: <span className='font-normal'>{imdbData.Country}</span>
@@ -249,13 +282,18 @@ export default function AddMovie() {
                 Awards: <span className='font-normal'>{imdbData.Awards}</span>
               </h4>
               <h4 className='text-lg font-bold text-gray-100'>
-                Box Office (Domestic): <span className='font-normal'>{imdbData.BoxOffice}</span>
+                Box Office (Domestic):{' '}
+                <span className='font-normal'>{imdbData.BoxOffice}</span>
               </h4>
               <h4 className='text-lg font-bold text-gray-100'>
-                Budget: <span className='font-normal'>{formatDollar(tmdbData.budget)}</span>
+                Budget:{' '}
+                <span className='font-normal'>
+                  {formatDollar(tmdbData.budget)}
+                </span>
               </h4>
               <h4 className='text-lg font-bold text-gray-100'>
-                Metascore: <span className='font-normal'>{imdbData.Metascore}</span>
+                Metascore:{' '}
+                <span className='font-normal'>{imdbData.Metascore}</span>
               </h4>
             </div>
           </div>
