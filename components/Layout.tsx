@@ -72,7 +72,7 @@ function Layout({ children }: { children: JSX.Element }) {
                     </div>
                     <div className='hidden md:block'>
                       <div className='flex items-baseline ml-10 space-x-4'>
-                        {page.map((item) => (
+                        {page.map(item => (
                           <ActiveLink
                             activeClassName={
                               'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'
@@ -135,7 +135,7 @@ function Layout({ children }: { children: JSX.Element }) {
                             leaveTo='transform opacity-0 scale-95'
                           >
                             <Menu.Items className='absolute right-0 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
-                              {userNavigation.map((item) => (
+                              {userNavigation.map(item => (
                                 <Menu.Item key={item.name}>
                                   {({ active }) => (
                                     <Link href={item.href}>
@@ -198,7 +198,7 @@ function Layout({ children }: { children: JSX.Element }) {
 
               <Disclosure.Panel className='md:hidden'>
                 <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3'>
-                  {page.map((item) => (
+                  {page.map(item => (
                     <ActiveLink
                       activeClassName={
                         'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'
@@ -247,7 +247,7 @@ function Layout({ children }: { children: JSX.Element }) {
                       </button>
                     </div>
                     <div className='px-2 mt-3 space-y-1'>
-                      {userNavigation.map((item) => (
+                      {userNavigation.map(item => (
                         <Disclosure.Button
                           key={item.name}
                           as='a'
@@ -276,7 +276,7 @@ function Layout({ children }: { children: JSX.Element }) {
                     participantsCollection.cursor
                   )
                 )
-                .map((participant) => (
+                .map(participant => (
                   <Participant key={participant} participant={participant} />
                 ))}
             </AnimateSharedLayout>

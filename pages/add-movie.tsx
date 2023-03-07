@@ -92,7 +92,7 @@ export default function AddMovie() {
 
         const matches = [];
 
-        querySnapshot.forEach((doc) => {
+        querySnapshot.forEach(doc => {
           if (doc.exists()) {
             matches.push(doc);
           }
@@ -122,19 +122,15 @@ export default function AddMovie() {
         title: movieFromList.title,
         tagline: tmdbData.tagline,
         posterPath: movieFromList.poster_path,
-        director: imdbData.Director.split(',').map((director) =>
-          director.trim()
-        ),
-        writer: imdbData.Writer.split(',').map((writer) => writer.trim()),
+        director: imdbData.Director.split(',').map(director => director.trim()),
+        writer: imdbData.Writer.split(',').map(writer => writer.trim()),
         year: imdbData.Year,
         runtime: imdbData.Runtime,
-        genre: imdbData.Genre.split(',').map((genre) => genre.trim()),
-        actors: imdbData.Actors.split(',').map((actor) => actor.trim()),
+        genre: imdbData.Genre.split(',').map(genre => genre.trim()),
+        actors: imdbData.Actors.split(',').map(actor => actor.trim()),
         plot: imdbData.Plot,
-        language: imdbData.Language.split(',').map((language) =>
-          language.trim()
-        ),
-        country: imdbData.Country.split(',').map((country) => country.trim()),
+        language: imdbData.Language.split(',').map(language => language.trim()),
+        country: imdbData.Country.split(',').map(country => country.trim()),
         productionCompanies: tmdbData.production_companies,
         awards: imdbData.Awards,
         budget: tmdbData.budget,
@@ -162,7 +158,7 @@ export default function AddMovie() {
       >
         <ComboboxInput
           value={term}
-          onChange={(e) => setTerm(e.target.value)}
+          onChange={e => setTerm(e.target.value)}
           placeholder='Movie Title... (e.g. Total Recall)'
           className='w-full px-3 py-2 mb-6 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline'
           type='search'
@@ -190,7 +186,7 @@ export default function AddMovie() {
 
         <ComboboxPopover>
           <ComboboxList>
-            {options?.results?.map((option) => (
+            {options?.results?.map(option => (
               <ComboboxOption
                 className='font-normal'
                 key={option.id}
