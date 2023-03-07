@@ -41,7 +41,10 @@ const moviesConverter: FirestoreDataConverter<Movie> = {
   toFirestore(movies: WithFieldValue<Movie>): DocumentData {
     return { ...movies };
   },
-  fromFirestore(snapshot: QueryDocumentSnapshot, options: SnapshotOptions): Movie {
+  fromFirestore(
+    snapshot: QueryDocumentSnapshot,
+    options: SnapshotOptions
+  ): Movie {
     const data = snapshot.data(options);
     return {
       id: snapshot.id,

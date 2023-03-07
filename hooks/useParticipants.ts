@@ -17,9 +17,15 @@ export interface Participants {
 
 const participantsConverter: FirestoreDataConverter<Participants> = {
   toFirestore(participants: WithFieldValue<Participants>): DocumentData {
-    return { participants: participants.participants, cursor: participants.cursor };
+    return {
+      participants: participants.participants,
+      cursor: participants.cursor,
+    };
   },
-  fromFirestore(snapshot: QueryDocumentSnapshot, options: SnapshotOptions): Participants {
+  fromFirestore(
+    snapshot: QueryDocumentSnapshot,
+    options: SnapshotOptions
+  ): Participants {
     const data = snapshot.data(options);
     return {
       participants: data.participants,
@@ -27,11 +33,14 @@ const participantsConverter: FirestoreDataConverter<Participants> = {
     };
   },
 };
-const participantsRef = collection(db, 'participants').withConverter(participantsConverter);
+const participantsRef = collection(db, 'participants').withConverter(
+  participantsConverter
+);
 const participantsQuery = query(participantsRef);
 
 export function useParticipants() {
-  const [participantsCollection, loading, error] = useCollectionData(participantsQuery);
+  const [participantsCollection, loading, error] =
+    useCollectionData(participantsQuery);
 
   return {
     participantsCollection: participantsCollection

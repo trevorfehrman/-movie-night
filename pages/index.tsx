@@ -21,7 +21,14 @@ const Home: NextPage = () => {
         Header: 'Poster',
         accessor: (d: any): string => `${BASE_IMG_URL_ORIGINAL}${d.posterPath}`,
         Cell: (row: CellProps<Movie>) => {
-          return <Image alt='Movie poster' src={row.cell.value} height={100} width={66} />;
+          return (
+            <Image
+              alt='Movie poster'
+              src={row.cell.value}
+              height={100}
+              width={66}
+            />
+          );
         },
       },
       {
@@ -62,9 +69,13 @@ const Home: NextPage = () => {
     }
   }, [movies]);
 
-  const tableInstance = useTable({ columns: columns as any, data: moviesList }, useSortBy);
+  const tableInstance = useTable(
+    { columns: columns as any, data: moviesList },
+    useSortBy
+  );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    tableInstance;
 
   return (
     <div className='flex flex-col'>
@@ -82,7 +93,9 @@ const Home: NextPage = () => {
                       return (
                         <th
                           className='py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400'
-                          {...column.getHeaderProps(column.getSortByToggleProps())}
+                          {...column.getHeaderProps(
+                            column.getSortByToggleProps()
+                          )}
                         >
                           {column.render('Header')}
                         </th>
@@ -98,7 +111,10 @@ const Home: NextPage = () => {
                 {rows.map(row => {
                   prepareRow(row);
                   return (
-                    <tr className='hover:bg-gray-100 dark:hover:bg-gray-700' {...row.getRowProps()}>
+                    <tr
+                      className='hover:bg-gray-100 dark:hover:bg-gray-700'
+                      {...row.getRowProps()}
+                    >
                       {row.cells.map(cell => {
                         return (
                           <td
