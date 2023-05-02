@@ -5,6 +5,7 @@ import { BellIcon, MenuIcon, XIcon, FilmIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
 import { auth, db, signInWithGoogle, signOut } from 'lib/firebase';
 import { AnimateSharedLayout } from 'framer-motion';
+import useSound from 'use-sound';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Link from 'next/link';
@@ -54,6 +55,11 @@ function Layout({ children }: { children: JSX.Element }) {
   const [user, authLoading, authError] = useAuthState(auth);
 
   const { participantsCollection } = useParticipants();
+  const [play] = useSound('/boing.mp3');
+
+  React.useEffect(() => {
+    play();
+  }, [participantsCollection.participants, play]);
 
   return (
     <>
